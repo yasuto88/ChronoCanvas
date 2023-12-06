@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --main-color:rgb(33, 150, 243);
+  --main-color-rgb:33, 150, 243;
+  --gray:rgb(189, 189, 189);
+  --light-gray:rgb(236, 239, 241);
+  --header-background: rgba(255, 255, 255, 0.4);
+  --pink:rgb(224, 64, 251);
+  --pink-rgb:224, 64, 251;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0; */
+  }
+}
+
+body {
+  font-family: "Noto Sans JP", sans-serif;
+}

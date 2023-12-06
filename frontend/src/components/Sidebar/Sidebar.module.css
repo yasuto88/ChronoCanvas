@@ -1,0 +1,41 @@
+/* Sidebar.module.css */
+.sidebarContainer {
+	display: flex;
+  }
+  
+  .sidebarButton {
+	margin: 0 10px;
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 24px;
+  }
+  
+  .sidebarDrawer {
+	width: 240px;
+	flex-shrink: 0;
+  }
+  
+  .sidebarDrawerContent {
+	background-color: #f4f4f4;
+	width: 100%;
+	height: 100vh;
+	box-sizing: border-box;
+	padding-top: 64px; /* ヘッダーの高さを考慮して余白を設定 */
+  }
+  
+  .sidebarListItem {
+	padding: 10px 20px;
+	list-style-type: none;
+	cursor: pointer;
+	border-bottom: 1px solid #ddd;
+  }
+  
+  .sidebarListItem:hover {
+	background-color: #e0e0e0;
+  }
+  
+  .icon {
+	margin-right: 10px;
+  }
+  
