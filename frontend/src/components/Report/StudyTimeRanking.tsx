@@ -10,8 +10,13 @@ import {
   Typography,
   Grid,
   Avatar,
-  Badge,
 } from "@mui/material";
+
+interface StudyData {
+  name: string;
+  studyHours: number;
+  image: string;
+}
 
 const StudyTimeRanking = () => {
   const studyData = [
@@ -67,7 +72,11 @@ const StudyTimeRanking = () => {
   );
 };
 
-const Podium = ({ studyData }) => {
+interface PodiumProps {
+  studyData: StudyData[];
+}
+
+const Podium = ({ studyData }: PodiumProps) => {
   // 順位のスタイルを定義
   const rankStyles = {
     1: { backgroundColor: "#FBC02D", color: "#fff" }, // 金

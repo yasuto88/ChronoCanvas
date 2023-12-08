@@ -5,27 +5,25 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import Divider from "@mui/material/Divider";
 import EditIcon from "@mui/icons-material/Edit";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
-import path from "path";
+import SearchIcon from "@mui/icons-material/Search";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { useRouter } from "next/router";
 
 const drawerWidth = 240;
 const drawerMobileWidth = 56;
 
 const Sidebar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const router = useRouter();
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  
 
   function renderIcon(index: number) {
     switch (index) {
@@ -45,23 +43,52 @@ const Sidebar = () => {
   }
 
   const menuItems = [
-    { text: "日記", icon: <AutoStoriesIcon />, path: "/" },
-    { text: "カレンダー", icon: <CalendarMonthIcon />, path: "/CalendarPage" },
-    { text: "レポート", icon: <BarChartIcon />, path: "/ReportPage" },
+    { text: "Diary", icon: <AutoStoriesIcon />, path: "/" },
+    { text: "Calender", icon: <CalendarMonthIcon />, path: "/CalendarPage" },
+    { text: "Report", icon: <BarChartIcon />, path: "/ReportPage" },
   ];
 
   const editItems = [
-    { text: "投稿する", icon: <EditIcon />, path: "/" },
-    { text: "タスクの追加・編集", icon: <EditCalendarIcon />, path: "/" },
+    { text: "Post", icon: <EditIcon />, path: "/" },
+    { text: "Setting", icon: <SettingsIcon />, path: "/" },
   ];
+
+  const getButtonStyle = (path: string) => {
+    return router.pathname === path
+      ? {
+          backgroundColor: "rgba(33, 150, 243,0.1)",
+          borderRadius: "8px",
+          margin: "4px",
+        }
+      : {
+          borderRadius: "8px",
+          margin: "4px",
+        };
+  };
 
   const drawer = (
     <div>
-      <Toolbar />
+      <List>
+        <ListItem disablePadding>
+          <ListItemButton
+            style={{
+              backgroundColor: "rgba(60,60,60,0.1)",
+              borderRadius: "32px",
+              height: "48px",
+              margin: "16px",
+            }}
+          >
+            <ListItemIcon>
+              <SearchIcon style={{ paddingRight: "8px" }} />
+              {"Search"}
+            </ListItemIcon>
+          </ListItemButton>
+        </ListItem>
+      </List>
       <List>
         {menuItems.map((item, index) => (
           <ListItem key={item.text} disablePadding>
-            <ListItemButton href={item.path}>
+            <ListItemButton href={item.path} style={getButtonStyle(item.path)}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
@@ -72,7 +99,7 @@ const Sidebar = () => {
       <List>
         {editItems.map((item, index) => (
           <ListItem key={item.text} disablePadding>
-            <ListItemButton href={item.path}>
+            <ListItemButton href={item.path} style={getButtonStyle(item.path)}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
@@ -84,7 +111,20 @@ const Sidebar = () => {
 
   const drawerMobile = (
     <div>
-      <Toolbar />
+      <List>
+        <ListItem disablePadding>
+          <ListItemButton
+            style={{
+              borderRadius: "56px",
+              height: "56px",
+            }}
+          >
+            <ListItemIcon>
+              <SearchIcon />
+            </ListItemIcon>
+          </ListItemButton>
+        </ListItem>
+      </List>
       <List>
         {menuItems.map((item, index) => (
           <ListItem key={item.text} disablePadding>
@@ -108,7 +148,7 @@ const Sidebar = () => {
   );
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box>
       <Drawer
         variant="permanent"
         sx={{
