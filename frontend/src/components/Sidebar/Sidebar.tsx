@@ -15,33 +15,14 @@ import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import SearchIcon from "@mui/icons-material/Search";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useRouter } from "next/router";
-
-const drawerWidth = 240;
-const drawerMobileWidth = 56;
+import { useTheme } from "@mui/material/styles";
+import { CssBaseline, Toolbar } from "@mui/material";
 
 const Sidebar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const router = useRouter();
-
-  
-
-  function renderIcon(index: number) {
-    switch (index) {
-      case 0:
-        return <AutoStoriesIcon />;
-      case 1:
-        return <CalendarMonthIcon />;
-      case 2:
-        return <BarChartIcon />;
-      case 3:
-        return <EditIcon />;
-      case 4:
-        return <EditCalendarIcon />;
-      default:
-        return null;
-    }
-  }
-
+  const theme = useTheme();
+  const { drawerWidth, drawerMobileWidth } = theme.layout;
   const menuItems = [
     { text: "Diary", icon: <AutoStoriesIcon />, path: "/" },
     { text: "Calender", icon: <CalendarMonthIcon />, path: "/CalendarPage" },
@@ -49,7 +30,7 @@ const Sidebar = () => {
   ];
 
   const editItems = [
-    { text: "Post", icon: <EditIcon />, path: "/" },
+    { text: "Post", icon: <EditIcon />, path: "/PostPage" },
     { text: "Setting", icon: <SettingsIcon />, path: "/" },
   ];
 
@@ -68,23 +49,8 @@ const Sidebar = () => {
 
   const drawer = (
     <div>
-      <List>
-        <ListItem disablePadding>
-          <ListItemButton
-            style={{
-              backgroundColor: "rgba(60,60,60,0.1)",
-              borderRadius: "32px",
-              height: "48px",
-              margin: "16px",
-            }}
-          >
-            <ListItemIcon>
-              <SearchIcon style={{ paddingRight: "8px" }} />
-              {"Search"}
-            </ListItemIcon>
-          </ListItemButton>
-        </ListItem>
-      </List>
+      <Toolbar />
+      
       <List>
         {menuItems.map((item, index) => (
           <ListItem key={item.text} disablePadding>
@@ -111,20 +77,8 @@ const Sidebar = () => {
 
   const drawerMobile = (
     <div>
-      <List>
-        <ListItem disablePadding>
-          <ListItemButton
-            style={{
-              borderRadius: "56px",
-              height: "56px",
-            }}
-          >
-            <ListItemIcon>
-              <SearchIcon />
-            </ListItemIcon>
-          </ListItemButton>
-        </ListItem>
-      </List>
+      <Toolbar />
+      
       <List>
         {menuItems.map((item, index) => (
           <ListItem key={item.text} disablePadding>
@@ -148,11 +102,23 @@ const Sidebar = () => {
   );
 
   return (
-    <Box>
+    <Box
+      sx={{
+        [theme.breakpoints.down("sm")]: {
+          display: "none",
+        },
+      }}  
+    >
       <Drawer
+      
         variant="permanent"
         sx={{
-          display: { xs: "none", md: "block" },
+          [theme.breakpoints.down("lg")]: {
+            display: "none",
+          },
+          [theme.breakpoints.up("lg")]: {
+            display: "block",
+          },
           "& .MuiDrawer-paper": {
             boxSizing: "border-box",
             width: drawerWidth,
@@ -165,7 +131,12 @@ const Sidebar = () => {
       <Drawer
         variant="permanent"
         sx={{
-          display: { xs: "block", md: "none" },
+          [theme.breakpoints.down("lg")]: {
+            display: "block",
+          },
+          [theme.breakpoints.up("lg")]: {
+            display: "none",
+          },
           "& .MuiDrawer-paper": {
             boxSizing: "border-box",
             width: drawerMobileWidth,

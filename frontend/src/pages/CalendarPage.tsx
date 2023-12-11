@@ -6,9 +6,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
-// import { DateClickArg } from '@fullcalendar/common';
 import allLocales from "@fullcalendar/core/locales-all.js";
-import styles from "./CalendarPage.module.css";
 import styled from "@emotion/styled";
 import { v4 as uuidv4 } from "uuid";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
@@ -22,6 +20,7 @@ import {
   Typography,
   Grid,
   IconButton,
+  Box,
 } from "@mui/material";
 import eventData from "../../data.json";
 import { Event } from "../types/interfaces";
@@ -133,8 +132,21 @@ const CalendarPage = () => {
   `;
 
   return (
-    <div className={styles.body}>
-      <div className={styles.calender}>
+    <Box sx={{
+      margin:"0 0 0 240px",
+      paddingTop: "72px",
+      paddingRight: "400px",
+      height: "100%",
+      minHeight: "100vh",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "flex-start",
+      background:
+        "linear-gradient(to right, rgba(224, 64, 251, 0.1), rgba(33, 150, 243, 0.1))",
+    }}>
+      <Box sx={{
+        width:"90%"
+      }}>
         <StyleWrapper>
           <FullCalendar
             plugins={[
@@ -163,7 +175,7 @@ const CalendarPage = () => {
             }}
           />
         </StyleWrapper>
-      </div>
+      </Box>
 
       {/* ダイアログ */}
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
@@ -239,7 +251,7 @@ const CalendarPage = () => {
       </Dialog>
 
       <EventsSection events={events} />
-    </div>
+    </Box>
   );
 };
 

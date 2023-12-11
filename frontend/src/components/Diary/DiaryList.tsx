@@ -7,12 +7,16 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DiaryCard from "./DiaryCard";
 import { DiaryEntry } from "../../types/interfaces";
+import { useTheme } from "@mui/material";
 
 interface DiaryListProps {
   entries: DiaryEntry[];
 }
 
 const DiaryList: React.FC<DiaryListProps> = ({ entries }) => {
+  const theme = useTheme();
+  const { drawerWidth, drawerMobileWidth } = theme.layout;
+
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const handlePrevMonth = () => {
@@ -27,7 +31,19 @@ const DiaryList: React.FC<DiaryListProps> = ({ entries }) => {
     );
   };
   return (
-    <div className={styles.diaryList}>
+    <Box
+      sx={{
+        marginRight: "320px",
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        [theme.breakpoints.down("md")]:{
+          marginRight: "0px",
+        }
+      }}
+    >
       <Box
         sx={{
           padding: 2,
@@ -69,7 +85,7 @@ const DiaryList: React.FC<DiaryListProps> = ({ entries }) => {
           ))}
         </Box>
       </Box>
-    </div>
+    </Box>
   );
 };
 

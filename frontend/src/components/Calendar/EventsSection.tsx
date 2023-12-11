@@ -27,7 +27,28 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events }) => {
   }, [events]);
 
   return (
-    <div className={styles.EventsSection}>
+    <Box
+      sx={{
+        position: "fixed",
+        right: 0,
+        m: 2,
+        p: 2,
+        width: "400px",
+        height: "85vh",
+        backgroundColor: "rgba(255, 255, 255, 0.7)",
+        borderRadius: "16px",
+        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+        backdropFilter: "blur(4px)",
+        WebkitBackdropFilter: "blur(10px)",
+        borderBottom: "1px solid rgba(255, 255, 255, 0.3)",
+        overflowY: "scroll",
+        msOverflowStyle: "none",
+        scrollbarWidth: "none",
+        "&::-webkit-scrollbar": {
+          display: "none",
+        },
+      }}
+    >
       <Box sx={{ margin: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -62,7 +83,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events }) => {
           </Grid>
         </Grid>
       </Box>
-    </div>
+    </Box>
   );
 };
 
