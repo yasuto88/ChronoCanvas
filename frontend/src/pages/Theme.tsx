@@ -1,6 +1,6 @@
-import React, { useState, useMemo, createContext } from "react";
-import { AppProps } from "next/app";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
+import React, { ReactNode, useEffect, useMemo, useState } from "react";
+import { usePaletteMode } from "../hooks/usePaletteMode";
 import {
   amber,
   blue,
@@ -11,13 +11,7 @@ import {
   lightBlue,
   purple,
 } from "@mui/material/colors";
-import "../styles/globals.css";
-import Layout from "../components/layout";
-import "@mui/joy/styles";
 import { PaletteMode } from "@mui/material";
-import { RecoilRoot, useRecoilState, useRecoilValue } from "recoil";
-import { paletteModeState } from "@/states/atoms/paletteModeState";
-import { Theme } from "./Theme";
 
 // テーマの型を拡張
 declare module "@mui/material/styles" {
@@ -104,36 +98,20 @@ const getDesignTokens = (mode: PaletteMode) => ({
   },
 });
 
-// テーマモードを切り替える関数を提供するコンテキスト
-const ColorModeContext = createContext({ toggleColorMode: () => {} });
-
-function MyApp({ Component, pageProps }: AppProps) {
-  // const [mode, setMode] = useState<PaletteMode>("dark");
-
-  // // テーマモード切り替え関数
-  // const colorMode = useMemo(
-  //   () => ({
-  //     toggleColorMode: () => {
-  //       setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
-  //     },
-  //   }),
-  //   []
-  // );
-
-  // // テーマ設定の更新
-  // const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
-  // // const mode = useRecoilValue(paletteModeState);
-  // // const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
-
+export const Theme = ({ children }: { children: ReactNode }) => {
+    const [paletteMode, setPaletteMode] = usePaletteMode();
+    const [mode, setMode] = useState<PaletteMode>('dark');
+  
+    useEffect(() => {
+      setMode(paletteMode === 'dark' ? 'dark' : 'light');
+    }, [paletteMode]);
+  
+    const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+  // その他のロジックとJSX
   return (
-    <RecoilRoot>
-      <Theme>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </Theme>
-    </RecoilRoot>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
   );
-}
-
-export default MyApp;
+};

@@ -22,7 +22,7 @@ const DiaryCard = ({ title, entryDate, content, tags }: DiaryCardProps) => {
         boxShadow: "0px 8px 20px rgba(33, 150, 243, 0.2)",
         borderRadius: "16px",
         overflow: "hidden",
-        backgroundColor: "#fff",
+        // backgroundColor: "#fff",
         transition: "box-shadow 0.3s",
         "&:hover": {
           boxShadow: '0px 16px 40px rgba(33, 150, 243, 0.4)',

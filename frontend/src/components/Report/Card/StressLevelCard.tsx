@@ -55,13 +55,13 @@ export default function StressLevelCard() {
           aria-label="settings"
           disabled
           style={{
-            backgroundColor: "#FF4081",
+            backgroundColor: "#EC407A",
             position: "absolute",
             top: 0,
             right: 0,
             margin: "16px",
             padding: "12px",
-            boxShadow: "0 0 16px #FF4081",
+            boxShadow: "0 0 16px #EC407A",
           }}
           size="large"
         >
@@ -116,7 +116,7 @@ export default function StressLevelCard() {
               />
               <SentimentSatisfiedAltIcon
                 sx={{ fontSize: 36 }}
-                style={{ color: "#FF4081" }}
+                style={{ color: "#EC407A" }}
               />
               <SentimentSatisfiedIcon
                 sx={{ fontSize: 36 }}

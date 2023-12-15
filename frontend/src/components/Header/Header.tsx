@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import EditIcon from "@mui/icons-material/Edit";
@@ -6,29 +6,19 @@ import {
   AppBar,
   Box,
   CssBaseline,
-  Divider,
-  Drawer,
   IconButton,
   Link,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
   Menu,
   MenuItem,
+  PaletteMode,
   Toolbar,
   Typography,
   useTheme,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Searchbar from "./Searchbar";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import AutoStoriesIcon from "@mui/icons-material/AutoStories";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import SettingsIcon from "@mui/icons-material/Settings";
 import { useRouter } from "next/router";
+import { usePaletteMode } from "@/hooks/usePaletteMode";
 
 interface Props {
   window?: () => Window;
@@ -36,7 +26,6 @@ interface Props {
 
 export default function Header(props: Props) {
   const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const router = useRouter();
   const container =
@@ -47,9 +36,10 @@ export default function Header(props: Props) {
   const theme = useTheme();
   const { drawerWidth, drawerMobileWidth } = theme.layout;
   const mobileMenuId = "primary-search-account-menu-mobile";
+  const [paletteMode, setPaletteMode] = usePaletteMode();
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+  const handleThemeChange = () => {
+    setPaletteMode(paletteMode === 'light' ? 'dark' : 'light');
   };
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -62,19 +52,6 @@ export default function Header(props: Props) {
 
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const getButtonStyle = (path: string) => {
-    return router.pathname === path
-      ? {
-          backgroundColor: "rgba(33, 150, 243,0.1)",
-          borderRadius: "8px",
-          margin: "4px",
-        }
-      : {
-          borderRadius: "8px",
-          margin: "4px",
-        };
   };
 
   const renderMobileMenu = (
@@ -104,6 +81,7 @@ export default function Header(props: Props) {
           size="large"
           aria-label="show 17 new notifications"
           color="primary"
+          onClick={handleThemeChange}
         >
           <Brightness4Icon />
         </IconButton>
@@ -137,12 +115,10 @@ export default function Header(props: Props) {
           [theme.breakpoints.up("lg")]: {
             width: `calc(100% - ${drawerWidth}px)`,
             ml: `${drawerWidth}px`,
-            // mr: `-${drawerWidth}px`,
           },
           [theme.breakpoints.down("lg")]: {
             width: `calc(100% - ${drawerMobileWidth}px)`,
             ml: `${drawerMobileWidth}px`,
-            // mr: `-${drawerWidth}px`,
           },
           [theme.breakpoints.down("sm")]: {
             width: "100%",
@@ -191,21 +167,22 @@ export default function Header(props: Props) {
             <IconButton
               size="large"
               aria-label="show 4 new mails"
-              color="primary"
+              color={theme.palette.mode === "dark" ? "secondary" : "primary"}
             >
               <GitHubIcon />
             </IconButton>
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
-              color="primary"
+              color={theme.palette.mode === "dark" ? "secondary" : "primary"}
+              onClick={handleThemeChange}
             >
               <Brightness4Icon />
             </IconButton>
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
-              color="primary"
+              color={theme.palette.mode === "dark" ? "secondary" : "primary"}
             >
               <EditIcon />
             </IconButton>
@@ -223,7 +200,7 @@ export default function Header(props: Props) {
               aria-controls={mobileMenuId}
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
-              color="primary"
+              color={theme.palette.mode === "dark" ? "secondary" : "primary"}
             >
               <MoreIcon />
             </IconButton>

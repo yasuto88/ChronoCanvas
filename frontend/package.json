@@ -32,6 +32,7 @@
     "react-dom": "^18",
     "react-simplemde-editor": "^5.2.0",
     "recharts": "^2.10.3",
+    "recoil": "^0.7.7",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

@@ -112,7 +112,7 @@ export default function WordCountCard() {
                   fontWeight: "normal",
                   position: "relative",
                   paddingRight: "16px",
-                  color: "#FF1744",
+                  color: "#EF5350",
                 }}
               >
                 16.7%

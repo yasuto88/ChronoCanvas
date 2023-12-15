@@ -72,7 +72,7 @@ const MarkdownEditor = () => {
         "image",
         "|",
         "guide",
-      ] as unknown as EasyMDE.ToolbarIcon[], // この行を追加
+      ] as unknown as EasyMDE.ToolbarIcon[],
     };
   }, []);
 
@@ -91,6 +91,7 @@ const MarkdownEditor = () => {
             value={markdownValue}
             onChange={onChange}
             options={autoUploadImage}
+            className="markdown-body"
           />
           <Box
             className="markdown-body"

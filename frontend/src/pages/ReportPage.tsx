@@ -21,8 +21,7 @@ const ReportPage = () => {
         flexDirection: "column",
         alignItems: "flex-start",
         justifyContent: "flex-start",
-        background:
-          "linear-gradient(to right, rgba(224, 64, 251, 0.1), rgba(33, 150, 243, 0.1))",
+        background: (theme) => theme.palette.gradient.primary,
         [theme.breakpoints.down("lg")]: {
           marginLeft: `${drawerMobileWidth}px`,
         },

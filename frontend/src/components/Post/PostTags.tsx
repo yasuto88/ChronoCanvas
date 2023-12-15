@@ -63,7 +63,7 @@ export default function PostTags() {
 
   return (
     <Stack direction="column" spacing={1} alignItems="start" marginBottom={2}>
-      <Button variant="outlined" size="small" onClick={() => setOpen(true)}>
+      <Button variant="contained" size="small" onClick={() => setOpen(true)}>
         タグ
       </Button>
       <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>

@@ -37,7 +37,7 @@ const Sidebar = (props: Props) => {
 
   const editItems = [
     { text: "Post", icon: <EditIcon />, path: "/PostPage" },
-    { text: "Setting", icon: <SettingsIcon />, path: "/" },
+    { text: "Setting", icon: <SettingsIcon />, path: "/cc" },
   ];
 
   const getButtonStyle = (path: string) => {
@@ -112,13 +112,13 @@ const Sidebar = (props: Props) => {
   return (
     <Box
       sx={{
+        height: "100%",
         [theme.breakpoints.down("sm")]: {
           display: "none",
         },
       }}
     >
       <Drawer
-        container={container}
         variant="permanent"
         sx={{
           [theme.breakpoints.down("lg")]: {

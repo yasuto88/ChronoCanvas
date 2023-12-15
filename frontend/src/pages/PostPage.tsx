@@ -1,8 +1,17 @@
 import React from "react";
-import { Box, Container, TextField, Button, Divider, useTheme } from "@mui/material";
+import {
+  Box,
+  Container,
+  TextField,
+  Button,
+  Divider,
+  useTheme,
+  ButtonGroup,
+} from "@mui/material";
 import PostTags from "@/components/Post/PostTags";
 import RatingsComponent from "@/components/Post/RatingsComponent";
 import MarkdownTabs from "@/components/Post/MarkdownEditor";
+import PostButton from "@/components/Post/PostButton";
 
 const PostPage = () => {
   const theme = useTheme();
@@ -47,19 +56,8 @@ const PostPage = () => {
 
           <MarkdownTabs />
 
-          <Box sx={{ mt: 2, display: "flex", justifyContent: "space-evenly" }}>
-            <Button
-              variant="outlined"
-              sx={{ backgroundColor: "fff" }}
-            >
-              キャンセル
-            </Button>
-            <Button variant="contained" color="secondary">
-              下書き保存
-            </Button>
-            <Button variant="contained">
-              投稿する
-            </Button>
+          <Box sx={{ mt: 2, display: "flex", justifyContent: "center" }}>
+            <PostButton />
           </Box>
         </Box>
       </Container>

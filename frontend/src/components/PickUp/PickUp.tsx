@@ -29,12 +29,15 @@ const PickUp: React.FC<DiaryListProps> = ({ entries }) => {
           height: "100%",
         },
         [theme.breakpoints.up("md")]: {
-          backgroundColor: "rgba(255, 255, 255, 0.7)",
+          backgroundColor:
+            theme.palette.mode === "dark"
+              ? "rgba(0, 0, 0, 0.3)"
+              : "rgba(255, 255, 255, 0.7)",
           borderRadius: "32px",
           boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
           backdropFilter: "blur(4px)",
           WebkitBackdropFilter: "blur(10px)",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.3)",
+          // borderBottom: "1px solid rgba(255, 255, 255, 0.3)",
           overflowY: "scroll",
           msOverflowStyle: "none",
           scrollbarWidth: "none",
@@ -55,7 +58,7 @@ const PickUp: React.FC<DiaryListProps> = ({ entries }) => {
         sx={{
           padding: 2,
           [theme.breakpoints.down("md")]: {
-            padding:3,
+            padding: 3,
           },
         }}
       >
