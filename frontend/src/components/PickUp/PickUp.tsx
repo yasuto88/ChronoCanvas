@@ -10,7 +10,6 @@ interface DiaryListProps {
 
 const PickUp: React.FC<DiaryListProps> = ({ entries }) => {
   const theme = useTheme();
-  const { drawerWidth, drawerMobileWidth } = theme.layout;
   return (
     <Box
       sx={{

@@ -5,48 +5,119 @@ import WordCountCard from "@/components/Report/Card/WordCountCard";
 import DiaryContinueCountCard from "@/components/Report/Card/DiaryContinueCountCard";
 import StudyTimeBarChart from "@/components/Report/Chart/StudyTimeBarChart";
 import StudyTimeRanking from "@/components/Report/StudyTimeRanking";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, useTheme } from "@mui/material";
 
 const ReportPage = () => {
+  const theme = useTheme();
+  const { drawerWidth, drawerMobileWidth } = theme.layout;
   return (
     <Box
       sx={{
-        padding: "80px 0 0 240px",
+        marginLeft: `${drawerWidth}px`,
+        paddingTop: "64px",
         height: "100%",
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
+        justifyContent: "flex-start",
         background:
           "linear-gradient(to right, rgba(224, 64, 251, 0.1), rgba(33, 150, 243, 0.1))",
+        [theme.breakpoints.down("lg")]: {
+          marginLeft: `${drawerMobileWidth}px`,
+        },
+        [theme.breakpoints.down("sm")]: {
+          marginLeft: "0px",
+        },
       }}
     >
       <Grid
         container
-        spacing={2}
-        sx={{ width: "100%", justifyContent: "space-evenly" ,marginTop:"16px"}}
+        sx={{
+          width: "100%",
+          justifyContent: "space-evenly",
+          padding: "16px",
+        }}
       >
-        <StudyProgressCard />
-        <StressLevelCard />
-        <WordCountCard />
-        <DiaryContinueCountCard />
+        <Grid
+          item
+          lg={3}
+          md={6}
+          sm={12}
+          xs={12}
+          sx={{ padding: { lg: 2, md: 1.5, sm: 1, xs: 1 } }}
+        >
+          <StudyProgressCard />
+        </Grid>
+        <Grid
+          item
+          lg={3}
+          md={6}
+          sm={12}
+          xs={12}
+          sx={{ padding: { lg: 2, md: 1.5, sm: 1, xs: 1 } }}
+        >
+          <StressLevelCard />
+        </Grid>
+        <Grid
+          item
+          lg={3}
+          md={6}
+          sm={12}
+          xs={12}
+          sx={{ padding: { lg: 2, md: 1.5, sm: 1, xs: 1 } }}
+        >
+          <WordCountCard />
+        </Grid>
+        <Grid
+          item
+          lg={3}
+          md={6}
+          sm={12}
+          xs={12}
+          sx={{ padding: { lg: 2, md: 1.5, sm: 1, xs: 1 } }}
+        >
+          <DiaryContinueCountCard />
+        </Grid>
       </Grid>
-      <Box
+
+      <Grid
+        container
         sx={{
           width: "100%",
           margin: "32px 0",
           padding: "0 32px",
           display: "flex",
           flexDirection: "row",
+          [theme.breakpoints.down("lg")]: {
+            flexDirection: "column",
+            alignItems: "center",
+            margin: 0,
+            padding: 0,
+          },
         }}
       >
-        <Box sx={{ width: "70%" }}>
+        <Box
+          sx={{
+            width: "60%",
+            [theme.breakpoints.down("lg")]: {
+              width: "100%",
+            },
+          }}
+        >
           <StudyTimeBarChart />
         </Box>
-        <Box sx={{ width: "30%" }}>
+        <Box
+          sx={{
+            width: "40%",
+            [theme.breakpoints.down("lg")]: {
+              width: "80%",
+            },
+          }}
+        >
           <StudyTimeRanking />
         </Box>
-      </Box>
+      </Grid>
     </Box>
   );
 };

@@ -29,13 +29,12 @@ export default function WordCountCard() {
     return () => clearInterval(timer);
   }, [targetProgress]);
 
-
   return (
     <div>
       <Card
         sx={{
-          minWidth: 275,
-          height: 160,
+          minWidth: 200,
+          height: 200,
           borderRadius: 2,
           boxShadow: "0 5px 20px rgba(0, 0, 0, 0.2)",
           position: "relative",
@@ -71,12 +70,16 @@ export default function WordCountCard() {
               flexDirection: "column",
               alignItems: "start",
               justifyContent: "space-between",
-              height: "80px",
+              height: "160px",
               marginBottom: "8px",
             }}
           >
             <Typography
-              sx={{ fontSize: 16 }}
+              sx={{
+                fontSize: 16,
+                maxWidth: "50%",
+                wordWrap: "break-word",
+              }}
               color="text.secondary"
               gutterBottom
             >
@@ -93,37 +96,38 @@ export default function WordCountCard() {
             >
               {`${animatedProgress.toFixed(1)}k`}
             </Typography>
-          </Box>
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "start",
-              flexDirection: "row",
-            }}
-          >
-            <SouthIcon sx={{ fontSize: 24 }} style={{ color: "#FF1744" }} />
-            <Typography
+            <Box
               sx={{
-                fontSize: 16,
-                fontWeight: "normal",
-                position: "relative",
-                paddingRight: "16px",
-                color: "#FF1744",
+                width: "100%",
+                display: "flex",
+                justifyContent: "start",
+                alignItems: "center",
+                flexDirection: "row",
               }}
             >
-              16.7%
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: 16,
-                fontWeight: "normal",
-                position: "relative",
-              }}
-              color="text.secondary"
-            >
-              Since last month
-            </Typography>
+              <SouthIcon sx={{ fontSize: 24 }} style={{ color: "#FF1744" }} />
+              <Typography
+                sx={{
+                  fontSize: 16,
+                  fontWeight: "normal",
+                  position: "relative",
+                  paddingRight: "16px",
+                  color: "#FF1744",
+                }}
+              >
+                16.7%
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: 16,
+                  fontWeight: "normal",
+                  position: "relative",
+                }}
+                color="text.secondary"
+              >
+                Since last month
+              </Typography>
+            </Box>
           </Box>
         </CardContent>
       </Card>

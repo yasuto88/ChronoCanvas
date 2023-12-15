@@ -10,6 +10,8 @@ import {
   Typography,
   Grid,
   Avatar,
+  useTheme,
+  Box,
 } from "@mui/material";
 
 interface StudyData {
@@ -19,6 +21,7 @@ interface StudyData {
 }
 
 const StudyTimeRanking = () => {
+  const theme = useTheme();
   const studyData = [
     { name: "React", studyHours: 120, image: "/react.png" },
     { name: "TypeScript", studyHours: 100, image: "/typescript.png" },
@@ -47,7 +50,15 @@ const StudyTimeRanking = () => {
       }}
     >
       <Typography fontSize={24}>Ranking</Typography>
-      <Podium studyData={studyData} />
+      <Box
+        sx={{
+          [theme.breakpoints.down("sm")]: {
+            display: "none",
+          },
+        }}
+      >
+        <Podium studyData={studyData} />
+      </Box>
       <Table>
         <TableHead>
           <TableRow>
@@ -77,6 +88,7 @@ interface PodiumProps {
 }
 
 const Podium = ({ studyData }: PodiumProps) => {
+  const theme = useTheme();
   // 順位のスタイルを定義
   const rankStyles = {
     1: { backgroundColor: "#FBC02D", color: "#fff" }, // 金

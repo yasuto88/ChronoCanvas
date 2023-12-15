@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, Paper, Typography } from "@mui/material";
+import { Box, Grid, Paper, Typography, useTheme } from "@mui/material";
 import { Event } from "../../types/interfaces";
 import styles from "./EventsSection.module.css";
 import EventCard from "./EventCard";
@@ -9,6 +9,8 @@ interface EventsSectionProps {
 }
 
 const EventsSection: React.FC<EventsSectionProps> = ({ events }) => {
+  const theme = useTheme();
+  const { drawerWidth, drawerMobileWidth } = theme.layout;
   const [expiredEvents, setExpiredEvents] = useState<Event[]>([]);
   const [ongoingEvents, setOngoingEvents] = useState<Event[]>([]);
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
@@ -33,7 +35,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events }) => {
         right: 0,
         m: 2,
         p: 2,
-        width: "400px",
+        width: "360px",
         height: "85vh",
         backgroundColor: "rgba(255, 255, 255, 0.7)",
         borderRadius: "16px",
@@ -46,6 +48,16 @@ const EventsSection: React.FC<EventsSectionProps> = ({ events }) => {
         scrollbarWidth: "none",
         "&::-webkit-scrollbar": {
           display: "none",
+        },
+
+        [theme.breakpoints.down("lg")]: {
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          m: 0,
+          width: "100%",
+          height: "100%",
         },
       }}
     >

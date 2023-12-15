@@ -41,12 +41,12 @@ const StudyTimeBarChart = () => {
   const targetStudyHours = 25; // 目標勉強時間
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer width="100%" height={320}>
       <AreaChart
         width={800}
         height={400}
         data={data}
-        margin={{ top: 20, right: 120, left: 0, bottom: 0 }}
+        margin={{ top: 20, right: 80, left: 0, bottom: 0 }}
       >
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="1" y2="0">
@@ -66,7 +66,7 @@ const StudyTimeBarChart = () => {
         <ReferenceLine
           y={targetStudyHours}
           label={{
-            value: "目標勉強時間",
+            value: "目標",
             position: "right",
             style: {
               fill: "red",

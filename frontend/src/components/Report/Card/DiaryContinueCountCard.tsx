@@ -34,8 +34,8 @@ export default function DiaryContinueCountCard() {
     <div>
       <Card
         sx={{
-          minWidth: 275,
-          height: 160,
+          minWidth: 200,
+          height: 200,
           borderRadius: 2,
           boxShadow: "0 5px 20px rgba(0, 0, 0, 0.2)",
           position: "relative",
@@ -71,12 +71,16 @@ export default function DiaryContinueCountCard() {
               flexDirection: "column",
               alignItems: "start",
               justifyContent: "space-between",
-              height: "80px",
+              height: "160px",
               marginBottom: "8px",
             }}
           >
             <Typography
-              sx={{ fontSize: 16 }}
+              sx={{
+                fontSize: 16,
+                maxWidth: "55%",
+                wordWrap: "break-word",
+              }}
               color="text.secondary"
               gutterBottom
             >
@@ -93,37 +97,37 @@ export default function DiaryContinueCountCard() {
             >
               {`${animatedProgress.toFixed(1)} times`}
             </Typography>
-          </Box>
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "start",
-              flexDirection: "row",
-            }}
-          >
-            <AddIcon sx={{ fontSize: 24 }} style={{ color: "#FFA000" }} />
-            <Typography
+            <Box
               sx={{
-                fontSize: 16,
-                fontWeight: "normal",
-                position: "relative",
-                paddingRight: "16px",
-                color: "#FFA000",
+                width: "100%",
+                display: "flex",
+                justifyContent: "start",
+                flexDirection: "row",
               }}
             >
-              7
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: 16,
-                fontWeight: "normal",
-                position: "relative",
-              }}
-              color="text.secondary"
-            >
-              previous record
-            </Typography>
+              <AddIcon sx={{ fontSize: 24 }} style={{ color: "#FFA000" }} />
+              <Typography
+                sx={{
+                  fontSize: 16,
+                  fontWeight: "normal",
+                  position: "relative",
+                  paddingRight: "16px",
+                  color: "#FFA000",
+                }}
+              >
+                7
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: 16,
+                  fontWeight: "normal",
+                  position: "relative",
+                }}
+                color="text.secondary"
+              >
+                previous record
+              </Typography>
+            </Box>
           </Box>
         </CardContent>
       </Card>

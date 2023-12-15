@@ -1,21 +1,33 @@
 import React from "react";
-import { Box, Container, TextField, Button, Divider } from "@mui/material";
+import { Box, Container, TextField, Button, Divider, useTheme } from "@mui/material";
 import PostTags from "@/components/Post/PostTags";
 import RatingsComponent from "@/components/Post/RatingsComponent";
 import MarkdownTabs from "@/components/Post/MarkdownEditor";
 
 const PostPage = () => {
+  const theme = useTheme();
+  const { drawerWidth, drawerMobileWidth } = theme.layout;
   return (
     <Box
       sx={{
-        padding: "80px 0 0 240px",
+        marginLeft: `${drawerWidth}px`,
+        paddingTop: "80px",
         height: "100%",
         minHeight: "100vh",
         display: "flex",
-        flexDirection: "column",
+        justifyContent: "center",
         alignItems: "flex-start",
         background:
           "linear-gradient(to right, rgba(224, 64, 251, 0.1), rgba(33, 150, 243, 0.1))",
+        [theme.breakpoints.down("lg")]: {
+          marginLeft: `${drawerMobileWidth}px`,
+        },
+        [theme.breakpoints.down("md")]: {
+          flexDirection: "column",
+        },
+        [theme.breakpoints.down("sm")]: {
+          marginLeft: "0px",
+        },
       }}
     >
       <Container maxWidth="md">
@@ -35,12 +47,18 @@ const PostPage = () => {
 
           <MarkdownTabs />
 
-          <Box sx={{ mt: 2, display: "flex", justifyContent: "space-between" }}>
-            <Button variant="contained" color="primary">
+          <Box sx={{ mt: 2, display: "flex", justifyContent: "space-evenly" }}>
+            <Button
+              variant="outlined"
+              sx={{ backgroundColor: "fff" }}
+            >
               キャンセル
             </Button>
             <Button variant="contained" color="secondary">
-              「投稿して保存」
+              下書き保存
+            </Button>
+            <Button variant="contained">
+              投稿する
             </Button>
           </Box>
         </Box>

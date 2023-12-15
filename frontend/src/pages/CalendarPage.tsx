@@ -21,6 +21,7 @@ import {
   Grid,
   IconButton,
   Box,
+  useTheme,
 } from "@mui/material";
 import eventData from "../../data.json";
 import { Event } from "../types/interfaces";
@@ -35,6 +36,8 @@ interface DateClickArg {
 const CalendarPage = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const theme = useTheme();
+  const { drawerWidth, drawerMobileWidth } = theme.layout;
   const [eventDetails, setEventDetails] = useState<Event>({
     id: "",
     title: "",
@@ -43,67 +46,67 @@ const CalendarPage = () => {
     color: "",
   });
 
-  useEffect(() => {
-    const loadedEvents: Event[] = eventData.Events.map((event) => ({
-      id: event.eventId,
-      title: event.title,
-      start: event.startDate,
-      end: event.endDate,
-      color: event.eventColor,
-    }));
-    setEvents(loadedEvents);
-  }, []);
+  // useEffect(() => {
+  //   const loadedEvents: Event[] = eventData.Events.map((event) => ({
+  //     id: event.eventId,
+  //     title: event.title,
+  //     start: event.startDate,
+  //     end: event.endDate,
+  //     color: event.eventColor,
+  //   }));
+  //   setEvents(loadedEvents);
+  // }, []);
 
-  const addDays = (date: Date | string, days: number): string => {
-    const result = new Date(date);
-    result.setDate(result.getDate() + days);
-    return result.toISOString().split("T")[0] + "T01:00";
-  };
+  // const addDays = (date: Date | string, days: number): string => {
+  //   const result = new Date(date);
+  //   result.setDate(result.getDate() + days);
+  //   return result.toISOString().split("T")[0] + "T01:00";
+  // };
 
-  const handleDateClick = useCallback(
-    (arg: DateClickArg) => {
-      //uuidを生成
-      const setId = uuidv4();
-      const sentTitle = "イベント";
-      const startDate = arg.dateStr + "T00:00"; // 開始日時の初期値
-      const endDate = addDays(new Date(startDate), 2);
-      const color = "#" + Math.floor(Math.random() * 16777215).toString(16);
-      setEventDetails({
-        ...eventDetails,
-        id: setId,
-        title: sentTitle,
-        start: startDate,
-        end: endDate,
-        color: color,
-      });
-      setDialogOpen(true); // ダイアログを開く
-    },
-    [eventDetails]
-  );
+  // const handleDateClick = useCallback(
+  //   (arg: DateClickArg) => {
+  //     //uuidを生成
+  //     const setId = uuidv4();
+  //     const sentTitle = "イベント";
+  //     const startDate = arg.dateStr + "T00:00"; // 開始日時の初期値
+  //     const endDate = addDays(new Date(startDate), 2);
+  //     const color = "#" + Math.floor(Math.random() * 16777215).toString(16);
+  //     setEventDetails({
+  //       ...eventDetails,
+  //       id: setId,
+  //       title: sentTitle,
+  //       start: startDate,
+  //       end: endDate,
+  //       color: color,
+  //     });
+  //     setDialogOpen(true); // ダイアログを開く
+  //   },
+  //   [eventDetails]
+  // );
 
-  const handleInputChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      setEventDetails({ ...eventDetails, [e.target.name]: e.target.value });
-      console.log(e.target.value);
-    },
-    [eventDetails]
-  );
+  // const handleInputChange = useCallback(
+  //   (e: ChangeEvent<HTMLInputElement>) => {
+  //     setEventDetails({ ...eventDetails, [e.target.name]: e.target.value });
+  //     console.log(e.target.value);
+  //   },
+  //   [eventDetails]
+  // );
 
-  const handleSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      setEvents([...events, eventDetails]);
-      setDialogOpen(false); // ダイアログを閉じる
-      setEventDetails({
-        id: "",
-        title: "",
-        start: "",
-        end: "",
-        color: "#2196f3",
-      }); // フォームをリセット
-    },
-    [events, eventDetails]
-  );
+  // const handleSubmit = useCallback(
+  //   (e: React.FormEvent<HTMLFormElement>) => {
+  //     e.preventDefault();
+  //     setEvents([...events, eventDetails]);
+  //     setDialogOpen(false); // ダイアログを閉じる
+  //     setEventDetails({
+  //       id: "",
+  //       title: "",
+  //       start: "",
+  //       end: "",
+  //       color: "#2196f3",
+  //     }); // フォームをリセット
+  //   },
+  //   [events, eventDetails]
+  // );
 
   const StyleWrapper = styled.div`
     .fc-button-primary {
@@ -111,6 +114,10 @@ const CalendarPage = () => {
       border-color: var(--main-color);
       color: var(--main-color);
     }
+
+    // .fc-toolbar-title {
+    //   font-size: 1rem;
+    // }
 
     .fc-button:hover {
       background-color: var(--main-color);
@@ -132,21 +139,34 @@ const CalendarPage = () => {
   `;
 
   return (
-    <Box sx={{
-      margin:"0 0 0 240px",
-      paddingTop: "72px",
-      paddingRight: "400px",
-      height: "100%",
-      minHeight: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "flex-start",
-      background:
-        "linear-gradient(to right, rgba(224, 64, 251, 0.1), rgba(33, 150, 243, 0.1))",
-    }}>
-      <Box sx={{
-        width:"90%"
-      }}>
+    <Box
+      sx={{
+        marginLeft: `${drawerWidth}px`,
+        paddingTop: "72px",
+        height: "100%",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        background:
+          "linear-gradient(to right, rgba(224, 64, 251, 0.1), rgba(33, 150, 243, 0.1))",
+        [theme.breakpoints.down("lg")]: {
+          marginLeft: `${drawerMobileWidth}px`,
+          flexDirection: "column",
+          paddingRight: "0px",
+        },
+        [theme.breakpoints.down("sm")]: {
+          marginLeft: "0px",
+        },
+      }}
+    >
+      <Box
+        sx={{
+          width: "100%",
+          padding: "16px",
+          height: "100%",
+        }}
+      >
         <StyleWrapper>
           <FullCalendar
             plugins={[
@@ -157,28 +177,33 @@ const CalendarPage = () => {
             ]}
             initialView="dayGridMonth"
             events={events}
-            dateClick={handleDateClick}
+            // dateClick={handleDateClick}
             headerToolbar={{
-              start: "today prev,next",
-              center: "title",
-              end: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
+              start: "title",
+              center: "",
+              end: "prev,next today",
+            }}
+            footerToolbar={{
+              start: "dayGridMonth,timeGridWeek,timeGridDay",
+              center: "",
+              end: "",
             }}
             locales={allLocales}
             locale="ja"
-            contentHeight="auto"
+            // contentHeight="auto"
+            height={560}
             buttonText={{
               today: "today",
               month: "month",
               week: "week",
               day: "day",
-              list: "予定リスト",
             }}
           />
         </StyleWrapper>
       </Box>
 
       {/* ダイアログ */}
-      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+      {/* <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
         <DialogTitle>イベントの追加</DialogTitle>
         <form onSubmit={handleSubmit}>
           <DialogContent>
@@ -248,9 +273,9 @@ const CalendarPage = () => {
             <Button type="submit">追加</Button>
           </DialogActions>
         </form>
-      </Dialog>
+      </Dialog> */}
 
-      <EventsSection events={events} />
+      {/* <EventsSection events={events} /> */}
     </Box>
   );
 };

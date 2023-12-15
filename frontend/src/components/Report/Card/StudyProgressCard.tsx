@@ -39,8 +39,8 @@ export default function StudyProgressCard() {
     <div>
       <Card
         sx={{
-          minWidth: 275,
-          height: 160,
+          minWidth: 200,
+          height: 200,
           borderRadius: 2,
           boxShadow: "0 5px 20px rgba(0, 0, 0, 0.2)",
           position: "relative",
@@ -77,12 +77,16 @@ export default function StudyProgressCard() {
               flexDirection: "column",
               alignItems: "start",
               justifyContent: "space-between",
-              height: "80px",
+              height: "140px",
               marginBottom: "16px",
             }}
           >
             <Typography
-              sx={{ fontSize: 16 }}
+              sx={{
+                fontSize: 16,
+                maxWidth: "55%",
+                wordWrap: "break-word",
+              }}
               color="text.secondary"
               gutterBottom
             >
@@ -99,54 +103,54 @@ export default function StudyProgressCard() {
             >
               {`${animatedProgress.toFixed(1)}%`}
             </Typography>
-          </Box>
-          <Box position="relative" width="100%">
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{
-                position: "absolute",
-                left: `${animatedProgress}%`,
-                top: "-24px", // Adjust this value as needed to position the label above the bar
-                transform: "translateX(-50%)",
-                px: 1, // Add some horizontal padding
-                borderRadius: 1, // Optional: adds rounded corners
-              }}
-            >
-              {animatedProgress.toFixed(1)}h
-            </Typography>
-
-            <LinearProgress
-              variant="determinate"
-              value={animatedProgress}
-              sx={{ mt: "24px" }}
-            />
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                position: "absolute",
-                width: "100%",
-                top: 0,
-                marginTop: "8px",
-              }}
-            >
+            <Box position="relative" width="100%">
               <Typography
                 variant="body2"
                 color="text.secondary"
-                sx={{ visibility: "hidden" }} // Hide this to not overlap with the progress bar
+                sx={{
+                  position: "absolute",
+                  left: `${animatedProgress}%`,
+                  top: "32px", // Adjust this value as needed to position the label above the bar
+                  transform: "translateX(-50%)",
+                  px: 1, // Add some horizontal padding
+                  borderRadius: 1, // Optional: adds rounded corners
+                }}
               >
-                0
+                {animatedProgress.toFixed(1)}h
               </Typography>
 
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ position: "absolute", right: 0 }} // Position to the right
+              <LinearProgress
+                variant="determinate"
+                value={animatedProgress}
+                sx={{ mt: "24px" }}
+              />
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  position: "absolute",
+                  width: "100%",
+                  top: 0,
+                  marginTop: "8px",
+                }}
               >
-                100h
-              </Typography>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ visibility: "hidden" }} // Hide this to not overlap with the progress bar
+                >
+                  0
+                </Typography>
+
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ position: "absolute", right: 0,top:-8 }} // Position to the right
+                >
+                  100h
+                </Typography>
+              </Box>
             </Box>
           </Box>
         </CardContent>

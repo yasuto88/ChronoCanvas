@@ -48,17 +48,6 @@ export default function Header(props: Props) {
   const { drawerWidth, drawerMobileWidth } = theme.layout;
   const mobileMenuId = "primary-search-account-menu-mobile";
 
-  const menuItems = [
-    { text: "Diary", icon: <AutoStoriesIcon />, path: "/" },
-    { text: "Calender", icon: <CalendarMonthIcon />, path: "/CalendarPage" },
-    { text: "Report", icon: <BarChartIcon />, path: "/ReportPage" },
-  ];
-
-  const editItems = [
-    { text: "Post", icon: <EditIcon />, path: "/PostPage" },
-    { text: "Setting", icon: <SettingsIcon />, path: "/" },
-  ];
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -87,41 +76,6 @@ export default function Header(props: Props) {
           margin: "4px",
         };
   };
-
-  const drawer = (
-    <div>
-      <Toolbar />
-      <Box
-        sx={{
-          padding: "0 0.5rem",
-          marginTop: "1rem",
-        }}
-      >
-        <Searchbar />
-      </Box>
-      <List>
-        {menuItems.map((item, index) => (
-          <ListItem key={item.text} disablePadding>
-            <ListItemButton href={item.path} style={getButtonStyle(item.path)}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {editItems.map((item, index) => (
-          <ListItem key={item.text} disablePadding>
-            <ListItemButton href={item.path} style={getButtonStyle(item.path)}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </div>
-  );
 
   const renderMobileMenu = (
     <Menu
@@ -197,22 +151,6 @@ export default function Header(props: Props) {
         }}
       >
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="primary"
-            aria-label="open drawer"
-            sx={{
-              mr: 2,
-              [theme.breakpoints.up("sm")]: {
-                display: "none",
-              },
-            }}
-            onClick={handleDrawerToggle}
-          >
-            <MenuIcon />
-          </IconButton>
-
           <Typography
             variant="h6"
             component="div"
@@ -233,7 +171,6 @@ export default function Header(props: Props) {
                 fontSize: "1.5rem",
                 marginRight: "0.5rem",
               },
-              
             }}
           >
             <Link href="/" underline="none">
@@ -294,32 +231,6 @@ export default function Header(props: Props) {
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
-      {/* {renderMenu} */}
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-        >
-          {drawer}
-        </Drawer>
-      </Box>
     </Box>
   );
 }

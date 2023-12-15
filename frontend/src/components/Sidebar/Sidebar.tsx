@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -11,15 +11,21 @@ import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import Divider from "@mui/material/Divider";
 import EditIcon from "@mui/icons-material/Edit";
-import EditCalendarIcon from "@mui/icons-material/EditCalendar";
-import SearchIcon from "@mui/icons-material/Search";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useRouter } from "next/router";
 import { useTheme } from "@mui/material/styles";
-import { CssBaseline, Toolbar } from "@mui/material";
+import { Toolbar } from "@mui/material";
 
-const Sidebar = () => {
-  const [mobileOpen, setMobileOpen] = useState(false);
+interface Props {
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window?: () => Window;
+}
+
+const Sidebar = (props: Props) => {
+  const { window } = props;
   const router = useRouter();
   const theme = useTheme();
   const { drawerWidth, drawerMobileWidth } = theme.layout;
@@ -47,13 +53,16 @@ const Sidebar = () => {
         };
   };
 
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+
   const drawer = (
     <div>
       <Toolbar />
-      
+
       <List>
         {menuItems.map((item, index) => (
-          <ListItem key={item.text} disablePadding>
+          <ListItem key={item.text} disablePadding >
             <ListItemButton href={item.path} style={getButtonStyle(item.path)}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
@@ -76,14 +85,13 @@ const Sidebar = () => {
   );
 
   const drawerMobile = (
-    <div>
+    <Box>
       <Toolbar />
-      
       <List>
         {menuItems.map((item, index) => (
           <ListItem key={item.text} disablePadding>
             <ListItemButton href={item.path}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemIcon style={{minWidth:0}}>{item.icon}</ListItemIcon>
             </ListItemButton>
           </ListItem>
         ))}
@@ -93,12 +101,12 @@ const Sidebar = () => {
         {editItems.map((item, index) => (
           <ListItem key={item.text} disablePadding>
             <ListItemButton href={item.path}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemIcon style={{minWidth:0}}>{item.icon}</ListItemIcon>
             </ListItemButton>
           </ListItem>
         ))}
       </List>
-    </div>
+    </Box>
   );
 
   return (
@@ -107,10 +115,10 @@ const Sidebar = () => {
         [theme.breakpoints.down("sm")]: {
           display: "none",
         },
-      }}  
+      }}
     >
       <Drawer
-      
+        container={container}
         variant="permanent"
         sx={{
           [theme.breakpoints.down("lg")]: {
