@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, Card, CardContent, IconButton, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  IconButton,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import NorthIcon from "@mui/icons-material/North";
 import AddIcon from "@mui/icons-material/Add";
@@ -8,7 +15,7 @@ export default function DiaryContinueCountCard() {
   const continueCount = 17;
   const animationDuration = 1000; // アニメーションの総時間（ミリ秒）
   const stepTime = 10; // 各ステップの時間（ミリ秒）
-
+  const theme = useTheme();
   const [animatedProgress, setAnimatedProgress] = useState(0); // アニメーション用の進捗値
 
   useEffect(() => {
@@ -39,10 +46,22 @@ export default function DiaryContinueCountCard() {
           borderRadius: 2,
           boxShadow: "0 5px 20px rgba(0, 0, 0, 0.2)",
           position: "relative",
-          backgroundColor: "rgba(255, 255, 255, 0.3)",
-          border: "1px solid rgba(255, 255, 255, 0.4)",
-          borderRightColor: "rgba(255, 255, 255, 0.2)",
-          borderBottomColor: "rgba(255, 255, 255, 0.2)",
+          backgroundColor:
+            theme.palette.mode === "dark"
+              ? "rgba(0, 0, 0, 0.3)"
+              : "rgba(255, 255, 255, 0.7)",
+          border:
+            theme.palette.mode === "dark"
+              ? "1px solid rgba(0, 0, 0, 0.2)"
+              : "1px solid rgba(255, 255, 255, 0.4)",
+          borderRightColor:
+            theme.palette.mode === "dark"
+              ? "rgba(0, 0, 0, 0.2)"
+              : "rgba(255, 255, 255, 0.2)",
+          borderBottomColor:
+            theme.palette.mode === "dark"
+              ? "rgba(0, 0, 0, 0.2)"
+              : "rgba(255, 255, 255, 0.2)",
           backdropFilter: "blur(20px)", // ブラウザ対応用
           WebkitBackdropFilter: "blur(20px)", // Safari向けのぼかし効果
         }}
@@ -87,12 +106,12 @@ export default function DiaryContinueCountCard() {
               CONTINUE COUNT
             </Typography>
             <Typography
+              color="text.secondary"
               sx={{
                 fontSize: 32,
                 fontWeight: "normal",
                 position: "relative",
                 paddingRight: "40px",
-                color: "#212121",
               }}
             >
               {`${animatedProgress.toFixed(1)} times`}

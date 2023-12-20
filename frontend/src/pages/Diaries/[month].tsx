@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 // import PickUp from "@/components/PickUp/PickUp";
 import DiaryList from "@/components/Diary/DiaryList";
-import { DiaryEntry } from "../types/interfaces";
+import { DiaryEntry } from "../../types/interfaces";
 import {
   Box,
   CssBaseline,
@@ -15,9 +15,9 @@ import { grey } from "@mui/material/colors";
 import { Global } from "@emotion/react";
 import PickUp from "@/components/PickUp/PickUp";
 import { Client as NotionClient } from "@notionhq/client";
+import { GetStaticProps, GetStaticPropsContext } from "next";
 
 const drawerBleeding = 24;
-
 
 interface Props {
   entries: DiaryEntry[];
@@ -46,10 +46,29 @@ const Puller = styled(Box)(({ theme }) => ({
   left: "calc(50% - 15px)",
 }));
 
-const HomePage = ({ entries, window }: Props) => {
+const MonthDiaryPage = ({ entries, window }: Props) => {
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const { drawerWidth, drawerMobileWidth } = theme.layout;
+
+  // const fetchData = async () => {
+  //   try {
+  //     // APIルートへのリクエスト
+  //     const response = await fetch("/api/database");
+  //     if (!response.ok) {
+  //       throw new Error(`Error: ${response.statusText}`);
+  //     }
+  //     const data = await response.json();
+  //     // データの設定
+  //     setEntries(data);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -169,26 +188,39 @@ const HomePage = ({ entries, window }: Props) => {
   );
 };
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async (
+  context: GetStaticPropsContext
+) => {
   const notion = new NotionClient({
     auth: process.env.NEXT_PUBLIC_NOTION_TOKEN,
   });
   const databaseId = process.env.NEXT_PUBLIC_NOTION_DATABASE_ID;
+
+  if (!databaseId) {
+    return { props: { entries: null } };
+  }
+
   let entries: {}[] = [];
 
   if (databaseId) {
     try {
-      // 現在の月の初日と最終日を計算
-      const currentDate = new Date();
-      const currentYear = currentDate.getFullYear();
-      const currentMonth = currentDate.getMonth(); // 月は0から始まるので注意
-      const firstDayOfMonth = new Date(currentYear, currentMonth, 1)
+      const monthParam = context.params?.month;
+      if (typeof monthParam !== "string") {
+        return {
+          notFound: true,
+        };
+      }
+      const [year, month] = monthParam.split("-").map(Number); // 文字列を数値に変換
+
+      // 指定された月の初日
+      const firstDayOfMonth = new Date(year, month - 1, 1)
         .toISOString()
         .split("T")[0];
-      const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0)
+
+      // 指定された月の最終日
+      const lastDayOfMonth = new Date(year, month, 1)
         .toISOString()
-        .split("T")[0];
-        
+        .split("T")[0]; // 月は0から始まるので month をそのまま使用
 
       const response = await notion.databases.query({
         database_id: databaseId,
@@ -197,7 +229,7 @@ export const getStaticProps = async () => {
             {
               property: "entryDate",
               date: {
-                on_or_after: firstDayOfMonth,
+                after: firstDayOfMonth,
               },
             },
             {
@@ -214,20 +246,17 @@ export const getStaticProps = async () => {
       entries = response.results.map((page: any) => {
         const properties = page.properties;
 
-        // const mdblocks = await n2m.pageToMarkdown(page.id, 2);
-        // const properties = page.properties;
-        // const content = mdblocks.map((block: any) => block.parent).join("\n");
-  
         // ここでは仮のコンテンツを返します
         const content = "ページの内容はここに追加される";
-        
+
         return {
           entryId: page.id,
           title: properties.title?.title?.[0]?.plain_text ?? "",
           content, // 追加
           entryDate: properties.entryDate?.date?.start ?? "",
           studyTime: properties.studyTime?.number ?? 0,
-          tags: properties.tags?.multi_select?.map((tag: any) => tag.name) ?? [],
+          tags:
+            properties.tags?.multi_select?.map((tag: any) => tag.name) ?? [],
           ratings: {
             focusLevel: properties.focusLevel?.number ?? 0,
             progressMeter: properties.progressMeter?.number ?? 0,
@@ -243,9 +272,16 @@ export const getStaticProps = async () => {
   }
 
   return {
-    props: { entries },
-    revalidate: 10, // 再生成間隔を10秒に設定
+    props: { entries: entries.length > 0 ? entries : null },
+    revalidate: 10,
   };
 };
 
-export default HomePage;
+export const getStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: "blocking",
+  };
+};
+
+export default MonthDiaryPage;

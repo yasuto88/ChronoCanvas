@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import EditIcon from "@mui/icons-material/Edit";
@@ -10,15 +10,15 @@ import {
   Link,
   Menu,
   MenuItem,
-  PaletteMode,
   Toolbar,
+  Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Searchbar from "./Searchbar";
 import { useRouter } from "next/router";
-import { usePaletteMode } from "@/hooks/usePaletteMode";
+import { usePaletteMode } from "../../states/paletteModeState";
 
 interface Props {
   window?: () => Window;
@@ -39,7 +39,7 @@ export default function Header(props: Props) {
   const [paletteMode, setPaletteMode] = usePaletteMode();
 
   const handleThemeChange = () => {
-    setPaletteMode(paletteMode === 'light' ? 'dark' : 'light');
+    setPaletteMode(paletteMode === "light" ? "dark" : "light");
   };
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -106,7 +106,10 @@ export default function Header(props: Props) {
       <AppBar
         // position="static"
         sx={{
-          backgroundColor: "var(--header-background)",
+          backgroundColor:
+            theme.palette.mode === "dark"
+              ? "var(--header-background-dark)"
+              : "var(--header-background)",
           boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
           backdropFilter: "blur(4px)",
           WebkitBackdropFilter: "blur(10px)",
@@ -164,28 +167,36 @@ export default function Header(props: Props) {
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color={theme.palette.mode === "dark" ? "secondary" : "primary"}
-            >
-              <GitHubIcon />
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color={theme.palette.mode === "dark" ? "secondary" : "primary"}
-              onClick={handleThemeChange}
-            >
-              <Brightness4Icon />
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color={theme.palette.mode === "dark" ? "secondary" : "primary"}
-            >
-              <EditIcon />
-            </IconButton>
+            <Tooltip title="GitHub" arrow>
+              <IconButton
+                size="large"
+                aria-label="show 4 new mails"
+                color="primary"
+                href="https://github.com/yasuto88/ChronoCanvas"
+              >
+                <GitHubIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="ダークモード" arrow>
+              <IconButton
+                size="large"
+                aria-label="show 17 new notifications"
+                color="primary"
+                onClick={handleThemeChange}
+              >
+                <Brightness4Icon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="投稿する" arrow>
+              <IconButton
+                size="large"
+                aria-label="show 17 new notifications"
+                color="primary"
+                href="/PostPage"
+              >
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
           </Box>
           <Box
             sx={{
@@ -200,7 +211,7 @@ export default function Header(props: Props) {
               aria-controls={mobileMenuId}
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
-              color={theme.palette.mode === "dark" ? "secondary" : "primary"}
+              color="primary"
             >
               <MoreIcon />
             </IconButton>

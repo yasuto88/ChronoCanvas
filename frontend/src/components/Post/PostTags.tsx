@@ -61,6 +61,13 @@ export default function PostTags() {
     setFilteredTags(filtered);
   };
 
+  const handleDelete = (index: number) => {
+    const newTags = [...tags];
+    newTags[index].selected = false;
+    setTags(newTags);
+    setFilteredTags(newTags);
+  }
+
   return (
     <Stack direction="column" spacing={1} alignItems="start" marginBottom={2}>
       <Button variant="contained" size="small" onClick={() => setOpen(true)}>
@@ -74,7 +81,8 @@ export default function PostTags() {
               key={tag.key}
               label={tag.label}
               size="small"
-              sx={{ mt: 1, ml: 1 }} // 上と左にマージンを適用
+              sx={{ mt: 1, ml: 1 }}
+              onDelete={() => handleTagToggle(tags.indexOf(tag))}
             />
           ))}
       </Box>

@@ -1,22 +1,15 @@
-import React, { useState, useMemo, createContext } from "react";
+import React, { createContext } from "react";
 import { AppProps } from "next/app";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
 import {
-  amber,
   blue,
-  blueGrey,
-  deepOrange,
   grey,
-  indigo,
-  lightBlue,
-  purple,
 } from "@mui/material/colors";
 import "../styles/globals.css";
 import Layout from "../components/layout";
 import "@mui/joy/styles";
 import { PaletteMode } from "@mui/material";
-import { RecoilRoot, useRecoilState, useRecoilValue } from "recoil";
-import { paletteModeState } from "@/states/atoms/paletteModeState";
+import { RecoilRoot } from "recoil";
+// import { paletteModeState } from "@/states/atoms/paletteModeState";
 import { Theme } from "./Theme";
 
 // テーマの型を拡張

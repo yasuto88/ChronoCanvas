@@ -1,17 +1,12 @@
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
-import React, { ReactNode, useEffect, useMemo, useState } from "react";
-import { usePaletteMode } from "../hooks/usePaletteMode";
+import React, { useEffect, useMemo, useState } from "react";
+// import { usePaletteMode } from "../hooks/usePaletteMode";
 import {
-  amber,
   blue,
-  blueGrey,
-  deepOrange,
   grey,
-  indigo,
-  lightBlue,
-  purple,
 } from "@mui/material/colors";
 import { PaletteMode } from "@mui/material";
+import { usePaletteMode } from "../states/paletteModeState";
 
 // テーマの型を拡張
 declare module "@mui/material/styles" {
@@ -64,6 +59,9 @@ const getDesignTokens = (mode: PaletteMode) => ({
           primary: {
             main: blue[500],
           },
+          secondary: {
+            main: grey[500],
+          },
           divider: grey[200],
           text: {
             primary: grey[900],
@@ -98,16 +96,23 @@ const getDesignTokens = (mode: PaletteMode) => ({
   },
 });
 
-export const Theme = ({ children }: { children: ReactNode }) => {
-    const [paletteMode, setPaletteMode] = usePaletteMode();
-    const [mode, setMode] = useState<PaletteMode>('dark');
-  
-    useEffect(() => {
-      setMode(paletteMode === 'dark' ? 'dark' : 'light');
-    }, [paletteMode]);
-  
-    const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
-  // その他のロジックとJSX
+export const Theme = ({ children }: { children: React.ReactNode }) => {
+  //   console.log("Theme------------------");
+  //   const [paletteMode] = usePaletteMode();
+  //   console.log(paletteMode);
+
+  const [paletteMode, setPaletteMode] = usePaletteMode();
+  const [isDarkMode, setIsDarkMode] = useState(paletteMode === "dark");
+
+  useEffect(() => {
+    setIsDarkMode(paletteMode === "dark");
+  });
+
+  const theme = useMemo(
+    () => createTheme(getDesignTokens(paletteMode)),
+    [paletteMode]
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

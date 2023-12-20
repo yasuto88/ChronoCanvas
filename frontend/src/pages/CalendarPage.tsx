@@ -1,6 +1,6 @@
 /// <reference types="uuid" />
 
-import React, { useState, useCallback, useEffect, ChangeEvent } from "react";
+import React from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -8,135 +8,155 @@ import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import allLocales from "@fullcalendar/core/locales-all.js";
 import styled from "@emotion/styled";
-import { v4 as uuidv4 } from "uuid";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  TextField,
-  DialogActions,
-  Button,
-  Typography,
-  Grid,
-  IconButton,
-  Box,
-  useTheme,
-} from "@mui/material";
-import eventData from "../../data.json";
-import { Event } from "../types/interfaces";
-import EventsSection from "@/components/Calendar/EventsSection";
+import { Box, Typography, useTheme } from "@mui/material";
+import { DiaryEntry } from "../types/interfaces";
+import { Client as NotionClient } from "@notionhq/client";
+import Tooltip from "@mui/material/Tooltip";
+import EventIcon from "@mui/icons-material/Event";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import router from "next/router";
+import { EventContentArg } from "@fullcalendar/core/index.js";
 
-interface DateClickArg {
-  date: Date;
-  dateStr: string;
-  allDay: boolean;
+interface Props {
+  entries: DiaryEntry[];
 }
 
-const CalendarPage = () => {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [dialogOpen, setDialogOpen] = useState(false);
+interface MyCustomComponentProps {
+  eventInfo: EventContentArg;
+}
+
+const CalendarPage = ({ entries }: Props) => {
   const theme = useTheme();
   const { drawerWidth, drawerMobileWidth } = theme.layout;
-  const [eventDetails, setEventDetails] = useState<Event>({
-    id: "",
-    title: "",
-    start: "",
-    end: "",
-    color: "",
+
+  const events = entries.map((entry) => {
+    const startDate = new Date(entry.entryDate);
+    const endDate = new Date(startDate);
+    endDate.setMinutes(startDate.getMinutes() + entry.studyTime);
+
+    return {
+      title: entry.title,
+      start: startDate.toISOString(),
+      end: endDate.toISOString(),
+      entryId: entry.entryId,
+    };
   });
 
-  // useEffect(() => {
-  //   const loadedEvents: Event[] = eventData.Events.map((event) => ({
-  //     id: event.eventId,
-  //     title: event.title,
-  //     start: event.startDate,
-  //     end: event.endDate,
-  //     color: event.eventColor,
-  //   }));
-  //   setEvents(loadedEvents);
-  // }, []);
+  const MyCustomComponent = ({ eventInfo }: MyCustomComponentProps) => {
+    const isXs = useMediaQuery(theme.breakpoints.down("sm"));
+    const entryId = eventInfo.event.extendedProps.entryId;
+    console.log(entryId);
+    return (
+      <Tooltip title={eventInfo.event.title}>
+        <Box
+          sx={{
+            padding: "8px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            fontSize: "0.85rem",
+            maxWidth: "100%",
+            borderRadius: "4px",
+            backgroundColor: "primary.main",
+          }}
+          onClick={() => {
+            router.push(`/DiaryPage/${entryId}`);
+          }}
+        >
+          {isXs ? (
+            <EventIcon sx={{ color: "white" }} />
+          ) : (
+            <Typography variant="body2" sx={{ color: "white" }}>
+              {eventInfo.event.title}
+            </Typography>
+          )}
+        </Box>
+      </Tooltip>
+    );
+  };
 
-  // const addDays = (date: Date | string, days: number): string => {
-  //   const result = new Date(date);
-  //   result.setDate(result.getDate() + days);
-  //   return result.toISOString().split("T")[0] + "T01:00";
-  // };
+  const renderEventContent = ({ eventInfo }: MyCustomComponentProps) => {
+    return <MyCustomComponent eventInfo={eventInfo} />;
+  };
 
-  // const handleDateClick = useCallback(
-  //   (arg: DateClickArg) => {
-  //     //uuidを生成
-  //     const setId = uuidv4();
-  //     const sentTitle = "イベント";
-  //     const startDate = arg.dateStr + "T00:00"; // 開始日時の初期値
-  //     const endDate = addDays(new Date(startDate), 2);
-  //     const color = "#" + Math.floor(Math.random() * 16777215).toString(16);
-  //     setEventDetails({
-  //       ...eventDetails,
-  //       id: setId,
-  //       title: sentTitle,
-  //       start: startDate,
-  //       end: endDate,
-  //       color: color,
-  //     });
-  //     setDialogOpen(true); // ダイアログを開く
-  //   },
-  //   [eventDetails]
-  // );
+  const StyleWrapper =
+    theme.palette.mode === "light"
+      ? styled.div`
+          .fc-button-primary {
+            background-color: #fff;
+            border-color: var(--main-color);
+            color: var(--main-color);
+          }
 
-  // const handleInputChange = useCallback(
-  //   (e: ChangeEvent<HTMLInputElement>) => {
-  //     setEventDetails({ ...eventDetails, [e.target.name]: e.target.value });
-  //     console.log(e.target.value);
-  //   },
-  //   [eventDetails]
-  // );
+          .fc-toolbar-title {
+            color: #616161;
+          }
 
-  // const handleSubmit = useCallback(
-  //   (e: React.FormEvent<HTMLFormElement>) => {
-  //     e.preventDefault();
-  //     setEvents([...events, eventDetails]);
-  //     setDialogOpen(false); // ダイアログを閉じる
-  //     setEventDetails({
-  //       id: "",
-  //       title: "",
-  //       start: "",
-  //       end: "",
-  //       color: "#2196f3",
-  //     }); // フォームをリセット
-  //   },
-  //   [events, eventDetails]
-  // );
+          .fc-button:hover {
+            background-color: var(--main-color);
+            color: #fff;
+            border-color: var(--main-color);
+          }
 
-  const StyleWrapper = styled.div`
-    .fc-button-primary {
-      background-color: #fff;
-      border-color: var(--main-color);
-      color: var(--main-color);
-    }
+          .fc-button-primary:not(:disabled).fc-button-active {
+            background-color: var(--main-color);
+            color: #fff;
+            border-color: var(--main-color);
+          }
 
-    // .fc-toolbar-title {
-    //   font-size: 1rem;
-    // }
+          .fc-button-primary:not(:disabled):active {
+            background-color: var(--main-color);
+            color: #fff;
+            border-color: var(--main-color);
+          }
 
-    .fc-button:hover {
-      background-color: var(--main-color);
-      color: #fff;
-      border-color: var(--main-color);
-    }
+          .fc-event-time {
+            display: none;
+          }
 
-    .fc-button-primary:not(:disabled).fc-button-active {
-      background-color: var(--main-color);
-      color: #fff;
-      border-color: var(--main-color);
-    }
+          .fc-h-event {
+            background-color: transparent;
+            border: none;
+          }
+        `
+      : styled.div`
+          .fc-button-primary {
+            background-color: "#1976d2";
+            border-color: #1976d2;
+            color: #1976d2;
+          }
 
-    .fc-button-primary:not(:disabled):active {
-      background-color: var(--main-color);
-      color: #fff;
-      border-color: var(--main-color);
-    }
-  `;
+          // .fc-toolbar-title {
+          //   color: #212121;
+          // }
+
+          .fc-button:hover {
+            background-color: #1976d2;
+            color: #fff;
+            border-color: #1976d2;
+          }
+
+          .fc-button-primary:not(:disabled).fc-button-active {
+            background-color: #1976d2;
+            color: #fff;
+            border-color: #1976d2;
+          }
+
+          .fc-button-primary:not(:disabled):active {
+            background-color: #1976d2;
+            color: #fff;
+            border-color: #1976d2;
+          }
+
+          .fc-event-time {
+            display: none;
+          }
+
+          .fc-h-event {
+            background-color: transparent;
+            border: none;
+          }
+        `;
 
   return (
     <Box
@@ -175,8 +195,6 @@ const CalendarPage = () => {
               listPlugin,
             ]}
             initialView="dayGridMonth"
-            events={events}
-            // dateClick={handleDateClick}
             headerToolbar={{
               start: "title",
               center: "",
@@ -197,86 +215,87 @@ const CalendarPage = () => {
               week: "week",
               day: "day",
             }}
+            events={events}
+            eventContent={renderEventContent}
           />
         </StyleWrapper>
       </Box>
-
-      {/* ダイアログ */}
-      {/* <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-        <DialogTitle>イベントの追加</DialogTitle>
-        <form onSubmit={handleSubmit}>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              name="title"
-              label="イベント名"
-              type="text"
-              fullWidth
-              variant="standard"
-              value={eventDetails.title}
-              onChange={handleInputChange}
-              required
-            />
-            {!eventDetails.title && (
-              <Typography variant="caption" color="error">
-                イベント名を入力してください
-              </Typography>
-            )}
-            <TextField
-              margin="dense"
-              name="start"
-              label="開始日時"
-              type="datetime-local"
-              value={eventDetails.start}
-              onChange={handleInputChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <TextField
-              margin="dense"
-              name="end"
-              label="終了日時"
-              type="datetime-local"
-              value={eventDetails.end}
-              onChange={handleInputChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <Grid>
-              <TextField
-                type="color"
-                name="color"
-                value={eventDetails.color}
-                onChange={handleInputChange}
-                style={{ width: "60%", marginTop: "8px" }}
-              />
-              <IconButton
-                aria-label="delete"
-                style={{ marginTop: "8px", marginLeft: "8px" }}
-                size="large"
-                onClick={() => {
-                  const color =
-                    "#" + Math.floor(Math.random() * 16777215).toString(16);
-                  setEventDetails({ ...eventDetails, color: color });
-                }}
-              >
-                <RestartAltIcon fontSize="large" />
-              </IconButton>
-            </Grid>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setDialogOpen(false)}>キャンセル</Button>
-            <Button type="submit">追加</Button>
-          </DialogActions>
-        </form>
-      </Dialog> */}
-
-      {/* <EventsSection events={events} /> */}
     </Box>
   );
+};
+
+export const getStaticProps = async () => {
+  const notion = new NotionClient({
+    auth: process.env.NEXT_PUBLIC_NOTION_TOKEN,
+  });
+  const databaseId = process.env.NEXT_PUBLIC_NOTION_DATABASE_ID;
+  let entries: {}[] = [];
+
+  if (databaseId) {
+    try {
+      // 現在の月の初日と最終日を計算
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear();
+      const currentMonth = currentDate.getMonth(); // 月は0から始まるので注意
+      const firstDayOfMonth = new Date(currentYear, currentMonth, 1)
+        .toISOString()
+        .split("T")[0];
+      const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0)
+        .toISOString()
+        .split("T")[0];
+
+      const response = await notion.databases.query({
+        database_id: databaseId,
+        filter: {
+          and: [
+            {
+              property: "entryDate",
+              date: {
+                on_or_after: firstDayOfMonth,
+              },
+            },
+            {
+              property: "entryDate",
+              date: {
+                on_or_before: lastDayOfMonth,
+              },
+            },
+          ],
+        },
+        sorts: [{ property: "entryDate", direction: "ascending" }],
+      });
+
+      entries = response.results.map((page: any) => {
+        const properties = page.properties;
+
+        const content = "";
+
+        return {
+          entryId: page.id,
+          title: properties.title?.title?.[0]?.plain_text ?? "",
+          content, // 追加
+          entryDate: properties.entryDate?.date?.start ?? "",
+          studyTime: properties.studyTime?.number ?? 0,
+          tags:
+            properties.tags?.multi_select?.map((tag: any) => tag.name) ?? [],
+          ratings: {
+            focusLevel: properties.focusLevel?.number ?? 0,
+            progressMeter: properties.progressMeter?.number ?? 0,
+            growthIndex: properties.growthIndex?.number ?? 0,
+            stressScale: properties.stressScale?.number ?? 0,
+          },
+        };
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      entries = [];
+    }
+  }
+
+  return {
+    props: { entries },
+    revalidate: 10, // 再生成間隔を10秒に設定
+  };
 };
 
 export default CalendarPage;

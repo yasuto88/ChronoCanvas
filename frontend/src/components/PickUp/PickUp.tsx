@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./PickUp.module.css";
 import { DiaryEntry } from "../../types/interfaces";
 import { Box, Typography, useTheme } from "@mui/material";
 import PickUpCard from "./PickUpCard";
@@ -33,7 +32,7 @@ const PickUp: React.FC<DiaryListProps> = ({ entries }) => {
             theme.palette.mode === "dark"
               ? "rgba(0, 0, 0, 0.3)"
               : "rgba(255, 255, 255, 0.7)",
-          borderRadius: "32px",
+          borderRadius: "8px",
           boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
           backdropFilter: "blur(4px)",
           WebkitBackdropFilter: "blur(10px)",
@@ -54,7 +53,7 @@ const PickUp: React.FC<DiaryListProps> = ({ entries }) => {
       >
         Pick Up
       </Typography>
-      <Box
+      {/* <Box
         sx={{
           padding: 2,
           [theme.breakpoints.down("md")]: {
@@ -71,7 +70,7 @@ const PickUp: React.FC<DiaryListProps> = ({ entries }) => {
             tags={entry.tags}
           />
         ))}
-      </Box>
+      </Box> */}
     </Box>
   );
 };

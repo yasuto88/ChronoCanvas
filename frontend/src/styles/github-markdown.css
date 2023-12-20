@@ -1,5 +1,6 @@
-@media (prefers-color-scheme: dark) {
+
     .markdown-body,
+    .dark
     [data-theme="dark"] {
       /*dark*/
       color-scheme: dark;
@@ -48,7 +49,7 @@
       --color-danger-fg: #f85149;
       --color-done-fg: #a371f7;
     }
-  }
+  
   
   @media (prefers-color-scheme: light) {
     .markdown-body,
