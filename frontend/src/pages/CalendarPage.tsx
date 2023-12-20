@@ -226,9 +226,9 @@ const CalendarPage = ({ entries }: Props) => {
 
 export const getStaticProps = async () => {
   const notion = new NotionClient({
-    auth: process.env.NEXT_PUBLIC_NOTION_TOKEN,
+    auth: process.env.NOTION_TOKEN,
   });
-  const databaseId = process.env.NEXT_PUBLIC_NOTION_DATABASE_ID;
+  const databaseId = process.env.NOTION_DATABASE_ID;
   let entries: {}[] = [];
 
   if (databaseId) {

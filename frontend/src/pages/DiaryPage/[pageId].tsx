@@ -152,7 +152,7 @@ export const getStaticProps: GetStaticProps = async (
 ) => {
   const pageId = context.params?.pageId as string;
   const notion = new NotionClient({
-    auth: process.env.NEXT_PUBLIC_NOTION_TOKEN,
+    auth: process.env.NOTION_TOKEN,
   });
   try {
     // Notion APIを使用してページのデータを取得
