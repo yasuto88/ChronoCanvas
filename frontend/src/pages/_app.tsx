@@ -10,7 +10,7 @@ import "@mui/joy/styles";
 import { PaletteMode } from "@mui/material";
 import { RecoilRoot } from "recoil";
 // import { paletteModeState } from "@/states/atoms/paletteModeState";
-import { Theme } from "./Theme";
+import { Theme } from "../styles/Theme";
 
 // テーマの型を拡張
 declare module "@mui/material/styles" {
