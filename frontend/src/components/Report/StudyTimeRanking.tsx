@@ -109,7 +109,7 @@ const Podium = ({ studyData }: PodiumProps) => {
           "linear-gradient(to right, rgba(33, 150, 243,0.4), rgba(33, 150, 243,0.8))",
       }}
     >
-      <Grid
+      {/* <Grid
         container
         justifyContent="center"
         alignItems="center"
@@ -230,7 +230,7 @@ const Podium = ({ studyData }: PodiumProps) => {
             {studyData[2].studyHours}h
           </Typography>
         </div>
-      </Grid>
+      </Grid> */}
     </Paper>
   );
 };
