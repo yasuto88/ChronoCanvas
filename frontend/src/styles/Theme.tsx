@@ -97,9 +97,6 @@ const getDesignTokens = (mode: PaletteMode) => ({
 });
 
 export const Theme = ({ children }: { children: React.ReactNode }) => {
-  //   console.log("Theme------------------");
-  //   const [paletteMode] = usePaletteMode();
-  //   console.log(paletteMode);
 
   const [paletteMode, setPaletteMode] = usePaletteMode();
   const [isDarkMode, setIsDarkMode] = useState(paletteMode === "dark");

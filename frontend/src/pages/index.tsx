@@ -59,6 +59,9 @@ const HomePage = ({ entries, window }: Props) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
+    console.log(entries);
+
+
   return (
     <Box
       sx={{
@@ -189,6 +192,7 @@ export const getStaticProps = async () => {
         .toISOString()
         .split("T")[0];
         
+        
 
       const response = await notion.databases.query({
         database_id: databaseId,
@@ -236,6 +240,7 @@ export const getStaticProps = async () => {
           },
         };
       });
+
     } catch (error) {
       console.error("Error fetching data:", error);
       entries = [];

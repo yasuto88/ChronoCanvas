@@ -20,7 +20,7 @@
     "@mui/icons-material": "^5.14.19",
     "@mui/joy": "^5.0.0-beta.17",
     "@mui/material": "^5.14.20",
-    "@notionhq/client": "^2.2.14",
+    "@notionhq/client": "^2.2.13",
     "dompurify": "^3.0.6",
     "easymde": "^2.18.0",
     "marked": "^11.0.1",
